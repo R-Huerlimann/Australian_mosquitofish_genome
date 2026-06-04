@@ -9,7 +9,7 @@ This repository will also be archived on Zenodo upon completion.
 
 ### Table of Contents
 
-**Sample sequencing and data processing**
+**Sampling, RNA/DNA extraction, library preparation, and sequencing**
 
 **Genome Assembly**
 
