@@ -13,7 +13,11 @@ This repository will also be archived on Zenodo upon completion.
 
 **Genome Assembly**
 
+[Genome Assembly](01_genome_assembly.md)
+
 **Scaffolding**
+
+[Scaffolding](02_scaffolding.md)
 
 **Assembly QC**
 
