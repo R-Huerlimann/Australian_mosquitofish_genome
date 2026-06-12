@@ -1,0 +1,58 @@
+==================================================
+file name: gamhol_genome_hap1_final_clnd.full_mask
+sequences:            92
+total length:  676090129 bp  (676086670 bp excl N/X-runs)
+GC level:        Unknown %
+bases masked:  197206305 bp ( 29.17 %)
+==================================================
+               number of      length   percentage
+               elements*    occupied  of sequence
+--------------------------------------------------
+Retroelements       196237     48519153 bp    7.18 %
+   SINEs:            25683      3654801 bp    0.54 %
+   Penelope:          8626       822292 bp    0.12 %
+   LINEs:           115303     27470383 bp    4.06 %
+    CRE/SLACS            0            0 bp    0.00 %
+     L2/CR1/Rex      74105     15927517 bp    2.36 %
+     R1/LOA/Jockey    3655      1404278 bp    0.21 %
+     R2/R4/NeSL       7504       966694 bp    0.14 %
+     RTE/Bov-B       11183      3181942 bp    0.47 %
+     L1/CIN4         13426      4138745 bp    0.61 %
+   LTR elements:     46625     16571677 bp    2.45 %
+     BEL/Pao          1905      1577558 bp    0.23 %
+     Ty1/Copia         204       149817 bp    0.02 %
+     Gypsy/DIRS1     10711      6089049 bp    0.90 %
+       Retroviral     4504      1927281 bp    0.29 %
+
+DNA transposons     459816     87253315 bp   12.91 %
+   hobo-Activator   161548     32647637 bp    4.83 %
+   Tc1-IS630-Pogo   188579     32002766 bp    4.73 %
+   En-Spm                0            0 bp    0.00 %
+   MULE-MuDR          2048       325835 bp    0.05 %
+   PiggyBac           3340       735928 bp    0.11 %
+   Tourist/Harbinger 19450      4770582 bp    0.71 %
+   Other (Mirage,        0            0 bp    0.00 %
+    P-element, Transib)
+
+Rolling-circles       5083      4225130 bp    0.62 %
+
+Unclassified:       114750     39568509 bp    5.85 %
+
+Total interspersed repeats:   175340977 bp   25.93 %
+
+
+Small RNA:           19961      2992260 bp    0.44 %
+
+Satellites:           2060       956045 bp    0.14 %
+Simple repeats:     305776     13404322 bp    1.98 %
+Low complexity:      44293      2068713 bp    0.31 %
+==================================================
+
+* most repeats fragmented by insertions or deletions
+  have been counted as one element
+                                                      
+
+The query species was assumed to be Gambusia      
+RepeatMasker version 4.2.3 , default mode                                         
+run with rmblastn version 2.17.0+
+FamDB: CONS-Dfam_3.9

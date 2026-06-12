@@ -1,11 +1,5 @@
-01 — phased genome assembly
+01 — Phased Genome Assembly
 ================
-
-<style>
-tr:nth-child(even) {
-  background-color: transparent;
-}
-</style>
 
 This section describes the code used for phased genome assembly of
 *Gambusia holbrooki* (eastern mosquitofish), producing two
@@ -37,7 +31,7 @@ Haplotype-phased assembly using HiFiasm with PacBio HiFi reads and Hi-C
 contact data.
 
 ``` bash
-hifiasm -o mosquito.pbhic.asm1 \
+hifiasm -o mosquitofish.pbhic.asm1 \
         -t 128 \
         --h1 Mosquitofish-HiC_S2_L001_R1_001.fastq.gz \
         --h2 Mosquitofish-HiC_S2_L001_R2_001.fastq.gz \
@@ -51,16 +45,8 @@ hifiasm -o mosquito.pbhic.asm1 \
 **Notes:** - HiFiasm in Hi-C mode (`--h1`/`--h2`) resolves heterozygous
 loci into two separate phased assemblies rather than collapsing them
 into a consensus. This is the recommended approach for diploid organisms
-where both haplotypes are of interest. - The `-t 128` flag sets thread
-count; HiFiasm scales well to high thread counts and the assembly step
-is the most resource-intensive in the pipeline. Reducing threads will
-increase wall time substantially. - Standard parameters (no custom
-overlap or purge settings) were used. For *G. holbrooki*, a small-genome
-livebearing fish (~750 Mb), defaults are appropriate; tuning is
-generally only warranted for unusual heterozygosity levels or repeat
-content. - stderr is redirected to `hifiasm.log` — this captures
-progress and statistics and should be checked for warnings about
-coverage or unresolved heterozygosity.
+where both haplotypes are of interest. - Standard parameters (no custom
+overlap or purge settings) were used.
 
 ------------------------------------------------------------------------
 
@@ -70,29 +56,98 @@ HiFiasm outputs assemblies in GFA format. These are converted to FASTA
 for downstream use.
 
 ``` bash
-awk '/^S/{print ">"$2"\n"$3}' mosquito.pbhic.asm1.hic.hap1.p_ctg.gfa > mosquito.pbhic.asm1.hic.hap1.p_ctg.fa
-awk '/^S/{print ">"$2"\n"$3}' mosquito.pbhic.asm1.hic.hap2.p_ctg.gfa > mosquito.pbhic.asm1.hic.hap2.p_ctg.fa
+awk '/^S/{print ">"$2"\n"$3}' mosquitofish.pbhic.asm1.hic.hap1.p_ctg.gfa > mosquitofish.pbhic.asm1.hic.hap1.p_ctg.fa
+awk '/^S/{print ">"$2"\n"$3}' mmosquitofish.pbhic.asm1.hic.hap2.p_ctg.gfa > mosquitofish.pbhic.asm1.hic.hap2.p_ctg.fa
 ```
 
 **Notes:** - GFA (Graphical Fragment Assembly) format encodes the
 assembly graph; most downstream tools (scaffolders, annotation
 pipelines) require FASTA. The `awk` one-liner extracts only the Segment
 lines (`S` tag), which contain contig names and sequences. - `p_ctg`
-refers to primary contigs — the fully phased, non-redundant contig set
+refers to primary contigs, the fully phased, non-redundant contig set
 for each haplotype. HiFiasm also produces alternate contig files
-(`.a_ctg`) which are not used here. - This conversion is lossless for
-the sequence content but discards graph topology, which is not needed
-for the Hi-C scaffolding step that follows.
+(`.a_ctg`) which are not used here.
 
 ------------------------------------------------------------------------
 
 ## Outputs
 
-| File                                    | Description                  |
-|-----------------------------------------|------------------------------|
-| `mosquito.pbhic.asm1.hic.hap1.p_ctg.fa` | HAP1 primary contigs (FASTA) |
-| `mosquito.pbhic.asm1.hic.hap2.p_ctg.fa` | HAP2 primary contigs (FASTA) |
-| `hifiasm.log`                           | Assembly log (stderr)        |
+| File                                        | Description                  |
+|---------------------------------------------|------------------------------|
+| `mosquitofish.pbhic.asm1.hic.hap1.p_ctg.fa` | HAP1 primary contigs (FASTA) |
+| `mosquitofish.pbhic.asm1.hic.hap2.p_ctg.fa` | HAP2 primary contigs (FASTA) |
+| `hifiasm.log`                               | Assembly log (stderr)        |
 
 Both FASTA files are passed to **[02 — Hi-C
 Scaffolding](02_HiC_scaffolding.md)**.
+
+------------------------------------------------------------------------
+
+## Step 3 — Mitogenome Assembly and Annotation
+
+The mitochondrial genome was assembled from the same PacBio HiFi reads
+using MitoHiFi, which extracts mitochondrial reads by similarity to a
+reference mitogenome and assembles them independently of the nuclear
+assembly.
+
+| Tool     | Version               | Source                                      |
+|:---------|:----------------------|:--------------------------------------------|
+| MitoHiFi | Singularity container | <https://github.com/marcelauliano/MitoHiFi> |
+| MITOS2   | via MitoHiFi          | <http://mitos.bioinf.uni-leipzig.de>        |
+
+### Step 3.1 — Read-based assembly
+
+``` bash
+# Download reference mitogenome (Gambusia holbrooki, NC_028274.1)
+efetch -db nucleotide -id NC_028274.1 -format fasta > related_mito.fasta
+efetch -db nucleotide -id NC_028274.1 -format gbwithparts > related_mito.gbk
+
+# Assemble mitogenome from HiFi reads
+mitohifi.py \
+    -r m84168_260317_052632_s4.fastq.gz \
+    -f related_mito.fasta \
+    -g related_mito.gbk \
+    -t 16 \
+    -a animal \
+    -o 2 \
+    -p 50
+```
+
+### Step 3.2 — Contig-based annotation
+
+``` bash
+# Annotate using assembled HiFiasm contigs as input
+mitohifi.py \
+    -c hifiasm.contigs.fasta \
+    -f related_mito.fasta \
+    -g related_mito.gbk \
+    -t 16 \
+    -a animal \
+    -o 2 \
+    -p 50 \
+    --mitos
+```
+
+**Notes:** - The read-based run (`-r`) assembles the mitogenome directly
+from HiFi reads. The contig-based run (`-c`) uses HiFiasm contigs as
+input and `--mitos` to invoke the MITOS2 annotation pipeline for final
+gene annotation.
+
+- NC_028274.1 (*Gambusia holbrooki*, 16,611 bp) was used as the
+  reference for mitochondrial read extraction and annotation transfer.
+
+- `-o 2` sets the genetic code to vertebrate mitochondrial (NCBI
+  translation table 2).
+
+- `-p 50` sets the minimum percentage identity to the reference for a
+  contig to be considered mitochondrial.
+
+- The assembled mitogenome was manually curated after annotation. One
+  gene was incorrectly split into two models and was corrected by hand
+  in the gtf file.
+
+- The final mitogenome sequence was appended to the HAP1 nuclear
+  assembly (`gamhol_genome_hap1_24chr_contigs_mtg.fa`) for use as the
+  EGAPx annotation input. EGAPx does not retain mitogenome annotations
+  in its output; the mitogenome annotation was produced independently
+  using MITOS2 via MitoHiFi and is available on Zenodo.

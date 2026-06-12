@@ -364,14 +364,15 @@ the Eastern mosquitofish (Gambusia holbrooki).</p>
 <p>This repository will also be archived on Zenodo upon completion.</p>
 <div id="table-of-contents" class="section level3">
 <h3>Table of Contents</h3>
-<p><strong>Sampling, RNA/DNA extraction, library preparation, and
-sequencing</strong></p>
-<p><strong>Genome Assembly</strong> <a href="01_genome_assembly.md">Genome Assembly</a>
-<strong>Scaffolding</strong></p>
-<p><strong>Assembly QC</strong></p>
-<p><strong>Repeat Annotation</strong></p>
-<p><strong>Functional Annotation</strong></p>
-<p><strong>Upload to ncbi</strong></p>
+<p><a href="00_sampling.md">Sampling Information</a></p>
+<p><a href="01_genome_assembly.md">Genome Assembly</a></p>
+<p><a href="02_scaffolding.md">Scaffolding</a></p>
+<p><a href="03_assembly_and_scaffolding_QC.md">Assembly and Scaffolding
+QC</a></p>
+<p><a href="02_repeat_annotation.md">Repeat Annotation</a></p>
+<p><a href="02_structural_and_functional_annotation.md">Sctructural and
+Functional Annotation</a></p>
+<p><a href="02_scaffolding.md">Annotation Quality Control</a></p>
 </div>
 <div id="how-to-use-this-repository" class="section level3">
 <h3>How to use this repository</h3>
@@ -382,6 +383,51 @@ file.</p>
 <p>If you would like to run the code in these files yourself you will
 need to adapt the code given in this repo and integrate it into your own
 HPC environment.</p>
+</div>
+<div id="computational-environment" class="section level2">
+<h2>Computational Environment</h2>
+<p>All analyses were performed on the Deigo HPC cluster at OIST (SLURM
+job scheduler).</p>
+<table>
+<thead>
+<tr class="header">
+<th align="center">Software</th>
+<th align="center">Version</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="center">Singularity</td>
+<td align="center">4.1.4</td>
+</tr>
+<tr class="even">
+<td align="center">Mamba</td>
+<td align="center">2.5.0</td>
+</tr>
+<tr class="odd">
+<td align="center">Nextflow</td>
+<td align="center">25.10.4</td>
+</tr>
+<tr class="even">
+<td align="center">SLURM</td>
+<td align="center">24.11.0</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div id="contact" class="section level2">
+<h2>Contact</h2>
+<p><strong>Roger Huerlimann</strong></p>
+<p><a href="https://www.oist.jp/research/research-units/macc">Marine
+Climate Change Unit</a></p>
+<p><a href="www.oist.jp">Okinawa Institute of Science and
+Technology</a></p>
+<p>📧 <a href="mailto:roger.huerlimann@oist.jp">roger.huerlimann@oist.jp</a> | <a href="mailto:roger.huerlimann@gmail.com">roger.huerlimann@gmail.com</a></p>
+<blockquote>
+<p>This repository was compiled with the assistance of <a href="https://claude.ai">Claude</a> (Anthropic), which helped convert a
+collection of SLURM scripts, analysis notes, and results into structured
+documentation.</p>
+</blockquote>
 </div>
 </div>
 

@@ -1,0 +1,360 @@
+05 — Structural and Functional Annotation
+================
+
+This section describes the genome annotation pipeline applied to both
+haplotype assemblies. RNA-seq reads were quality trimmed prior to
+annotation. Structural and functional annotation was performed using
+NCBI’s [EGAPx](https://github.com/ncbi/egapx) (Eukaryotic Genome
+Annotation Pipeline — experimental), which produces gene models, mRNA,
+CDS, and protein sequences. Additional functional annotation of the
+predicted proteins was subsequently performed using EggNOG-mapper.
+`prepare_submission` was used to create a `.sqn` file for each genome
+for upload to genbank.
+
+All steps were run on the Deigo HPC cluster using Singularity containers
+and Nextflow.
+
+------------------------------------------------------------------------
+
+## Inputs
+
+| File | Description |
+|----|----|
+| gamhol_genome_hap1_24chr_contigs_mtg.fa | HAP1 final assembly (24 chromosomes + contigs + mitogenome) |
+| gamhol_genome_hap2_24chr_contigs.fa | HAP2 final assembly (24 chromosomes + contigs) |
+| Mosquitofish-RNAseq_S1_L001_R1_001.fastq.gz | RNAseq forward reads (raw, SRR38065501) |
+| Mosquitofish-RNAseq_S1_L001_R2_001.fastq.gz | RNAseq reverse reads (raw, SRR38065501) |
+
+------------------------------------------------------------------------
+
+## Software
+
+|      Tool       | Version | Source                                       |
+|:---------------:|:-------:|----------------------------------------------|
+|   Trim Galore   |  0.6.4  | <https://github.com/FelixKrueger/TrimGalore> |
+|    Cutadapt     |  2.10   | <https://github.com/marcelm/cutadapt>        |
+|      EGAPx      |  0.5.2  | <https://github.com/ncbi/egapx>              |
+|    Nextflow     | 25.10.4 | <https://www.nextflow.io>                    |
+|  eggNOG-mapper  | 2.1.12  | <https://github.com/eggnogdb/eggnog-mapper>  |
+| eggNOG database |  5.0.2  | <http://eggnog5.embl.de>                     |
+
+------------------------------------------------------------------------
+
+## Part 0 — RNA-seq Preprocessing
+
+Raw RNA-seq reads were quality and adaptor trimmed using Trim Galore
+prior to use in EGAPx annotation. Run as a SLURM array job processing
+both read pairs in parallel.
+
+``` bash
+trim_galore \
+    --paired \
+    --retain_unpaired \
+    --basename ${name} \
+    --fastqc \
+    --length 30 \
+    --cores 8 \
+    Mosquitofish-RNAseq_S1_L001_R1_001.fastq.gz \
+    Mosquitofish-RNAseq_S1_L001_R2_001.fastq.gz
+```
+
+**Notes:**
+
+- `--paired` processes both reads together, removing a read pair only if
+  either read fails quality thresholds.
+
+- `--length 30` discards reads shorter than 30 bp after trimming —
+  important for removing very short fragments that would map ambiguously
+  during splice-aware alignment in EGAPx.
+
+- `--retain_unpaired` keeps reads whose pair was discarded, which may
+  still provide useful evidence for gene model prediction.
+
+- `--fastqc` runs FastQC automatically on trimmed outputs for QC
+  reporting.
+
+- Trimmed outputs (`_val_1.fq.gz` and `_val_2.fq.gz`) are the files used
+  as `short_reads` input in the EGAPx YAML files.
+
+------------------------------------------------------------------------
+
+## Part 1 — Structural Annotation with EGAPx
+
+EGAPx is NCBI’s experimental eukaryotic genome annotation pipeline. It
+integrates RNA-seq evidence, protein homology, and ab initio gene
+prediction to produce annotation consistent with NCBI’s RefSeq
+standards. Both haplotypes were annotated independently using the same
+RNA-seq dataset. It was run using Nextflow and Singularity in a
+[tmux](https://github.com/tmux/tmux/wiki) instance.
+
+### Step 1.1 — Installation
+
+``` bash
+ml python/3.11.4
+ml Nextflow2/25.10.4
+ml singularity/4.1.4
+
+# Pull EGAPx container
+singularity cache clean
+singularity pull docker://ncbi/egapx:0.5.2
+
+# Clone EGAPx repository
+git clone https://github.com/ncbi/egapx.git
+cd egapx
+
+# Set up Python environment
+python3 -m venv venv
+source venv/bin/activate
+pip install -r requirements.txt
+```
+
+**Notes:**
+
+- EGAPx requires a Python virtual environment for its UI wrapper script
+  (`egapx.py`), which manages the Nextflow pipeline execution. The
+  `venv` must be activated before each run.
+
+------------------------------------------------------------------------
+
+### Step 1.2 — Input YAML Files
+
+EGAPx takes a YAML configuration file specifying the genome, taxon ID,
+and RNA-seq reads.
+
+**HAP1 (`input_hap1.yaml`)**
+
+``` yaml
+genome: gamhol_genome_hap1_24chr_contigs_mtg.fa
+taxid: 27720
+short_reads:
+  - - mosquitofish_rnaseq
+    - - Mosquitofish-RNAseq_S1_L001_val_1.fq.gz
+      - Mosquitofish-RNAseq_S1_L001_val_2.fq.gz
+locus_tag_prefix: AC2TIX
+```
+
+**HAP2 (`input_hap2.yaml`)**
+
+``` yaml
+genome: gamhol_genome_hap2_24chr_contigs.fa
+taxid: 27720
+short_reads:
+  - - mosquitofish_rnaseq
+    - - Mosquitofish-RNAseq_S1_L001_val_1.fq.gz
+      - Mosquitofish-RNAseq_S1_L001_val_2.fq.gz
+locus_tag_prefix: AC2TIY
+```
+
+**Notes:**
+
+- `taxid: 27720` is the NCBI taxonomy ID for *Gambusia holbrooki*. EGAPx
+  uses this to retrieve relevant protein homology data from NCBI during
+  the resource download step.
+
+- `locus_tag_prefix` must match the prefix registered with NCBI for each
+  haplotype: `AC2TIX` for HAP1 and `AC2TIY` for HAP2. These were
+  assigned at BioProject submission.
+
+- The same RNA-seq dataset was used for both haplotypes. EGAPx uses the
+  reads for splice site evidence and transcript support.
+
+- HAP1 includes the mitogenome (`_mtg`); HAP2 does not as the mitogenome
+  was assembled separately and assigned to HAP1.
+
+------------------------------------------------------------------------
+
+### Step 1.3 — Download EGAPx Resources
+
+``` bash
+ml python/3.11.4
+ml Nextflow2/25.10.4
+source venv/bin/activate
+
+python3 egapx/ui/egapx.py \
+    input_hap1.yaml \
+    -dl \
+    -lc /flash/RavasiU/Roger/egapx_local_cache
+```
+
+**Notes:**
+
+- `-dl` triggers a resource-only download run. This downloads NCBI
+  protein homology data for the specified taxon and caches it locally.
+  Only needs to be run once, and both haplotypes share the same taxon
+  and can use the same cache.
+
+- `-lc` specifies the local cache directory. Using a shared cache avoids
+  redundant downloads between HAP1 and HAP2 runs.
+
+------------------------------------------------------------------------
+
+### Step 1.4 — Run EGAPx Annotation
+
+``` bash
+ml python/3.11.4
+ml Nextflow2/25.10.4
+source venv/bin/activate
+
+# HAP1
+python3 egapx/ui/egapx.py \
+    input_hap1.yaml \
+    -e slurm \
+    -w work/ \
+    -o egapx_out \
+    -lc /flash/RavasiU/Roger/egapx_local_cache
+
+# HAP2
+python3 egapx/ui/egapx.py \
+    input_hap2.yaml \
+    -e slurm \
+    -w work/ \
+    -o egapx_out \
+    -lc /flash/RavasiU/Roger/egapx_local_cache
+```
+
+**Notes:**
+
+- `-e slurm` instructs Nextflow to submit individual pipeline processes
+  as SLURM jobs. EGAPx manages its own job submission internally. Do not
+  wrap the `egapx.py` call itself in a SLURM script, as it needs to
+  remain running as the Nextflow head process.
+
+- `-w work/` is the Nextflow work directory where intermediate files are
+  stored. This can grow very large; on flash storage this is manageable
+  but should be cleaned up after a successful run.
+
+- `-o egapx_out` is the output directory for final annotation files.
+
+------------------------------------------------------------------------
+
+### Step 1.5 — Prepare NCBI Submission
+
+Convert EGAPx annotation output to NCBI submission format using the
+`prepare_submission` utility bundled with the EGAPx container. Detailed
+information can be found
+[here](https://github.com/ncbi/egapx#submitting-egapx-annotation-to-ncbi).
+
+``` bash
+alias prepare_submission='singularity exec --cleanenv \
+    --bind "$PWD:$PWD" --pwd "$PWD" \
+    egapx_0.5.2.sif prepare_submission'
+
+# HAP1
+prepare_submission \
+    --egapx-annotated-genome-asn egapx_out/annotated_genome.asn \
+    --submission-template-file ncbi_submission_info.sbt \
+    --locus-tag-prefix AC2TIX \
+    --src-file ncbi_hap1_source_table.src \
+    --assembly-data-structured-comment-file ncbi_hap1.asm \
+    --linkage-evidence proximity-ligation \
+    --source-quals "[organism=Gambusia holbrooki]" \
+    --out-dir ncbi_submission_out
+
+# HAP2
+prepare_submission \
+    --egapx-annotated-genome-asn egapx_out/annotated_genome.asn \
+    --submission-template-file ncbi_submission_info.sbt \
+    --locus-tag-prefix AC2TIY \
+    --src-file ncbi_hap2_source_table.src \
+    --assembly-data-structured-comment-file ncbi_hap2.asm \
+    --linkage-evidence proximity-ligation \
+    --source-quals "[organism=Gambusia holbrooki]" \
+    --out-dir ncbi_submission_out
+```
+
+**Notes:**
+
+- `prepare_submission` packages the EGAPx `.asn` annotation file with
+  submission metadata into a format ready for NCBI genome submission via
+  the submission portal.
+
+- `--linkage-evidence proximity-ligation` specifies Hi-C as the
+  scaffolding evidence, which is required metadata for chromosome-scale
+  assemblies submitted to NCBI.
+
+- The `.sbt` template file contains submitter contact information and is
+  generated via the NCBI submission portal before submission.
+
+- The `.src` source table and `.asm` structured comment files provide
+  assembly-level metadata (collection date, geographic location,
+  assembly method, genome coverage) required by NCBI.
+
+------------------------------------------------------------------------
+
+## Part 2 — Functional Annotation with EggNOG-mapper
+
+EggNOG-mapper assigns functional annotations, GO terms, KEGG pathways,
+and orthology to the predicted proteins from EGAPx using the eggNOG 5.0
+database via DIAMOND sequence search.
+
+``` bash
+ml singularity/4.1.4
+
+SIF=eggnog-mapper_2.1.12--pyhdfd78af_0.sif
+PROTEINS=egapx_out/complete.proteins.faa
+DB=/bucket/RavasiU/research_data/eggnog_db
+
+singularity exec \
+    -B ${DB}:/eggnog_db \
+    -B ${PROTEINS}:/input_dir/complete.proteins.faa \
+    -B ${OUTDIR}:/output \
+    ${SIF} \
+    emapper.py \
+        -i /input_dir/complete.proteins.faa \
+        --output /output/hap1 \
+        --data_dir /eggnog_db \
+        --temp_dir /output \
+        -m diamond \
+        --cpu 16 \
+        --override
+```
+
+**Notes:**
+
+- Input is `complete.proteins.faa` from the EGAPx output directory,
+  containing all predicted protein sequences for the haplotype.
+
+- `-m diamond` uses DIAMOND for sequence search against the eggNOG
+  database, which is substantially faster than HMMER-based search with
+  comparable sensitivity for this application.
+
+- `--override` allows the run to overwrite any existing output files
+  from a previous partial run.
+
+- The eggNOG database (v5.0.2) was pre-downloaded and bound into the
+  container rather than using the default download, which avoids
+  repeated large downloads.
+
+- Run separately for HAP1 and HAP2, changing `--output /output/hap1` to
+  `--output /output/hap2` for the second haplotype.
+
+------------------------------------------------------------------------
+
+## Outputs
+
+| File | Description |
+|----|----|
+| `egapx_out/annotated_genome.asn` | EGAPx annotation in ASN.1 format (NCBI submission input) |
+| `egapx_out/complete.proteins.faa` | Predicted protein sequences |
+| `egapx_out/complete.transcripts.fna` | Predicted transcript sequences |
+| `egapx_out/complete.gff` | Gene annotation in GFF3 format |
+| `ncbi_submission_out/` | NCBI-ready submission package |
+| `eggnog_out/hap1.emapper.annotations` | EggNOG functional annotations (HAP1) |
+| `eggnog_out/hap2.emapper.annotations` | EggNOG functional annotations (HAP2) |
+
+------------------------------------------------------------------------
+
+## Citations
+
+Functional annotation was performed using eggNOG-mapper (v2.1.12) based
+on eggNOG orthology data (v5.0.2). Sequence searches were performed
+using DIAMOND.
+
+- eggNOG-mapper v2: Cantalapiedra et al. 2021. *Molecular Biology and
+  Evolution*, msab293. <https://doi.org/10.1093/molbev/msab293>
+
+- eggNOG 5.0: Huerta-Cepas et al. 2019. *Nucleic Acids Research*,
+  47(D1):D309–D314. <https://doi.org/10.1093/nar/gky1085>
+
+- DIAMOND: Buchfink et al. 2021. *Nature Methods* 18, 366–368.
+  <https://doi.org/10.1038/s41592-021-01101-x>
