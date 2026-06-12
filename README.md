@@ -31,7 +31,7 @@ These include the outputs of egapx (gtf, cds, aa), and eggnog mapper (annotation
 
 [05 - Sctructural and Functional Annotation](05_structural_and_functional_annotation.md)
 
-[06 - Annotation Quality Control](06_scaffolding.md)
+[06 - Annotation Quality Control](06_annotation_quality_control.md)
 
 ### How to use this repository
 All of the sections above are provided as processed markdown files. Clicking the link should display a web readable page with text. The code used to generate these pages is provided in the corresponding .Rmd file.
