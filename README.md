@@ -7,7 +7,7 @@ It is currently in draft form, and will be finalised before publication. Please 
 
 Upon publication, the citation will appear here.
 
-This repository will also be archived on Zenodo upon completion.
+This repository will also be archived on Zenodo upon completion under [![DOI](https://zenodo.org/badge/1258848678.svg)](https://doi.org/10.5281/zenodo.20659008).
 
 ### Resources ###
 The genome and annotation can be found on ncbi under PRJNA1450840 (upon publication).
