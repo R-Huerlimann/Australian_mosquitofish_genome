@@ -1,6 +1,8 @@
 # Genome assembly and annotation of the Eastern Mosquitofish (*Gambusia holbrooki*) sourced from Townsville, Australia.
 This repository contains the complete collection of scripts and explanatory notes for the genome assembly of an Australian isolate of the Eastern mosquitofish (Gambusia holbrooki).
 
+It is currently in draft form, and will be finalised before publication. Please send any comments to the contact below.
+
 (The layout of this repository has been inspired by [Jia Zhang (bakeronit) acropora_digitifera_wgs](https://github.com/bakeronit/acropora_digitifera_wgs))
 
 Upon publication, the citation will appear here.
