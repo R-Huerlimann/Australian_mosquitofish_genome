@@ -8,28 +8,28 @@ Upon publication, the citation will appear here.
 This repository will also be archived on Zenodo upon completion.
 
 ### Resources ###
-The genome and annotation can be found on ncbi under PRJNA1450840.
+The genome and annotation can be found on ncbi under PRJNA1450840 (upon publication).
 
-Additional resources can be found on [zenodo](link).
+Additional resources can be found on [zenodo](link) (not yet available).
 
 These include the outputs of egapx (gtf, cds, aa), and eggnog mapper (annotation), and repeat masker outputs (gtf, repeat famlies).
 
 
 ### Table of Contents
 
-[Sampling Information](00_sampling.md)
+[00 - Sampling Information](00_sampling.md)
 
-[Genome Assembly](01_genome_assembly.md)
+[01 - Genome Assembly](01_genome_assembly.md)
 
-[Scaffolding](02_HiC_scaffolding.md)
+[02 - Scaffolding](02_HiC_scaffolding.md)
 
-[Assembly and Scaffolding QC](03_assembly_and_scaffolding_QC.md)
+[03 - Assembly and Scaffolding QC](03_assembly_and_scaffolding_QC.md)
 
-[Repeat Annotation](02_repeat_annotation.md)
+[04 - Repeat Annotation](02_repeat_annotation.md)
 
-[Sctructural and Functional Annotation](02_structural_and_functional_annotation.md)
+[05 - Sctructural and Functional Annotation](02_structural_and_functional_annotation.md)
 
-[Annotation Quality Control](02_scaffolding.md)
+[06 - Annotation Quality Control](02_scaffolding.md)
 
 ### How to use this repository
 All of the sections above are provided as processed markdown files. Clicking the link should display a web readable page with text. The code used to generate these pages is provided in the corresponding .Rmd file.
