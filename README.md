@@ -27,11 +27,11 @@ These include the outputs of egapx (gtf, cds, aa), and eggnog mapper (annotation
 
 [03 - Assembly and Scaffolding QC](03_assembly_and_scaffolding_QC.md)
 
-[04 - Repeat Annotation](02_repeat_annotation.md)
+[04 - Repeat Annotation](04_repeat_annotation.md)
 
-[05 - Sctructural and Functional Annotation](02_structural_and_functional_annotation.md)
+[05 - Sctructural and Functional Annotation](05_structural_and_functional_annotation.md)
 
-[06 - Annotation Quality Control](02_scaffolding.md)
+[06 - Annotation Quality Control](06_scaffolding.md)
 
 ### How to use this repository
 All of the sections above are provided as processed markdown files. Clicking the link should display a web readable page with text. The code used to generate these pages is provided in the corresponding .Rmd file.
