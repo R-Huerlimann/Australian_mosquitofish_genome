@@ -7,7 +7,7 @@ It is currently in draft form, and will be finalised before publication. Please 
 
 Upon publication, the citation will appear here.
 
-This repository has been archived on Zenodo upon completion under [![DOI](https://zenodo.org/badge/1258848678.svg)](https://doi.org/10.5281/zenodo.20659008).
+This repository has been archived on Zenodo upon completion under [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.20659009.svg)](https://doi.org/10.5281/zenodo.20659009).
 
 ## Table of Contents
 
