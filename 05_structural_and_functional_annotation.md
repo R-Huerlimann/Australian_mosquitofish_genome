@@ -358,3 +358,10 @@ using DIAMOND.
 
 - DIAMOND: Buchfink et al. 2021. *Nature Methods* 18, 366–368.
   <https://doi.org/10.1038/s41592-021-01101-x>
+
+------------------------------------------------------------------------
+
+## NEXT STEP
+
+The genome and functional annotations were then quality controlled in
+[06 - Annotation Quality Control](06_annotation_quality_control.md)

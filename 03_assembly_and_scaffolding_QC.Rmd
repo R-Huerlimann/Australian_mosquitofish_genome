@@ -435,5 +435,7 @@ nextflow run nf-core/pairgenomealign \
 | Total gap content | 3,700 bp | 3,300 bp |
 | Scaffolding joins | 37 | 33 |
 
+---
+## NEXT STEP
 
 After assembly and scaffolding QC, the next step included **[04 - Repeat Annotation](04_repeat_annotation.md)**

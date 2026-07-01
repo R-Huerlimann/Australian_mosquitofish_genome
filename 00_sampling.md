@@ -87,3 +87,10 @@ HiFi reads were generated on a single Revio SMRT Cell.
 | Size at sequencing  | 25–30 mm, 0.1–0.2 g                   |
 | NCBI BioProject     | PRJNA1450840                          |
 | NCBI BioSample      | SAMN57172601                          |
+
+------------------------------------------------------------------------
+
+## NEXT STEP
+
+The sequenced raw data was used in **[01 - Genome
+Assembly](01_genome_assembly.md)**

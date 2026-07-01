@@ -77,5 +77,9 @@ HiFi reads were generated on a single Revio SMRT Cell.
 | NCBI BioSample | SAMN57172601 |
 
 
+
+---
+## NEXT STEP
+
 The sequenced raw data was used in **[01 - Genome Assembly](01_genome_assembly.md)**
 

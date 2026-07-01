@@ -159,3 +159,10 @@ mitohifi.py \
   EGAPx annotation input. EGAPx does not retain mitogenome annotations
   in its output; the mitogenome annotation was produced independently
   using MITOS2 via MitoHiFi and is available on Zenodo.
+
+------------------------------------------------------------------------
+
+## NEXT STEP
+
+Assembled genomes are passed to **[02 -
+Scaffolding](02_HiC_scaffolding.md)**

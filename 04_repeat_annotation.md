@@ -339,5 +339,9 @@ genome for gene annotation in the next step.
 | `05_full_out/*.simple_mask.gff3` | Simple repeats in GFF3 format |
 | `05_full_out/*.complex_mask.gff3` | Complex/interspersed repeats in GFF3 format |
 
+------------------------------------------------------------------------
+
+## NEXT STEP
+
 The complex repeat GFF3 and the final softmasked FASTA are passed to
 **[05 — functional annotation](05_functional_annotation.md)**.

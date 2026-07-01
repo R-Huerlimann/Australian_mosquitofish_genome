@@ -292,5 +292,9 @@ scaffolds as expected.*
 | `*.hic` | Juicebox contact map for visual QC |
 | `*.dedup.stats` | Pairtools deduplication statistics |
 
+------------------------------------------------------------------------
+
+## NEXT STEP
+
 Scaffolded assemblies are passed to **[03 — Assembly and Scaffolding
 QC](03_assembly_and_scaffolding_QC.md)**.

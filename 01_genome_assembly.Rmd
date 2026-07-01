@@ -135,6 +135,8 @@ mitohifi.py \
 
 - The final mitogenome sequence was appended to the HAP1 nuclear assembly (`gamhol_genome_hap1_24chr_contigs_mtg.fa`) for use as the EGAPx annotation input. EGAPx does not retain mitogenome annotations in its output; the mitogenome annotation was produced independently using MITOS2 via MitoHiFi and is available on Zenodo.
 
+---
+## NEXT STEP
 
 Assembled genomes are passed to **[02 - Scaffolding](02_HiC_scaffolding.md)**
 

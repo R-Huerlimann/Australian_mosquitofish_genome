@@ -535,5 +535,9 @@ ERGA](figures/target___G_holbrooki_hap1_italy.o2o_plt_filtered.png)
 | Total gap content              |     3,700 bp     |     3,300 bp     |
 | Scaffolding joins              |        37        |        33        |
 
+------------------------------------------------------------------------
+
+## NEXT STEP
+
 After assembly and scaffolding QC, the next step included **[04 - Repeat
 Annotation](04_repeat_annotation.md)**
