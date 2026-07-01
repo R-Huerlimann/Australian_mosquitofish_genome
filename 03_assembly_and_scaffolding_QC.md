@@ -360,23 +360,28 @@ to distinguish strong from weak signal.
 
 | Category               | HAP1 | HAP2 |
 |:-----------------------|:----:|:----:|
-| Strong both ends (≥50) |  13  |  11  |
-| Strong/weak one end    |  7   |  8   |
-| Absent at one end      |  3   |  4   |
-| Weak/absent both ends  |  1   |  1   |
+| Strong both ends (≥50) |  13  |  10  |
+| Strong/weak one end    |  9   |  7   |
+| Absent at one end      |  1   |  3   |
+| Weak/absent both ends  |  1   |  4   |
 
 HAP1: All 24 chromosomes show detectable telomeric signal at at least
 one end. 13 chromosomes have strong bilateral signal (≥50 repeats at
-both ends). chr18, chr19, and chr23 have strong 5’ signal but no
-detectable 3’ signal, and chr20 has only weak signal with no 3’ signal,
-suggesting these four termini remain unresolved.
+both ends). A further 9 chromosomes (chr05, chr06, chr08, chr09, chr12,
+chr13, chr16, chr18, chr19) have a strong or weak signal at one end
+paired with a weak, nonzero signal at the other. chr23 has strong 5’
+signal but no detectable 3’ signal, while chr20 has only weak signal at
+both ends (2 and 0 repeats), suggesting these two termini remain
+unresolved.
 
-HAP2: 11 chromosomes have strong bilateral signal. The pattern differs
-from HAP1, with more chromosomes showing weak or absent signal at one
-end; notably chr05, chr08, chr12, chr13, and chr21 have no detectable 3’
-signal. chr07 and chr11 have weak signal at both ends. The asymmetry
-between haplotypes likely reflects differences in contig ordering and
-orientation introduced during phased assembly.
+HAP2: 10 chromosomes have strong bilateral signal. A further 7
+chromosomes (chr01, chr06, chr08, chr10, chr17, chr20, chr23) have a
+strong or weak signal at one end paired with a weak, nonzero signal at
+the other. chr12, chr13, and chr21 have strong signal at one end but no
+detectable signal at the other. chr05, chr07, chr11, and chr18 show only
+weak or absent signal at both ends. The asymmetry between haplotypes
+likely reflects differences in contig ordering and orientation
+introduced during phased assembly.
 
 ![Telomere plot HAP1](figures/gamhol_hap1_telomeres.svg) *<b>Figure
 3.3a.</b> Telomeric repeat (TTAGGG) distribution across the 24 HAP1
@@ -448,23 +453,87 @@ introduced by YaHS, where contigs were joined with a 100 N spacer.
 
 ------------------------------------------------------------------------
 
+## Step 8 — Comparative Synteny (Whole-Genome Alignment)
+
+Whole-genome alignments were performed using nf-core/pairgenomealign to
+assess synteny and structural concordance between HAP1 and (i) HAP2,
+(ii) the ERGA-BGE *G. holbrooki* reference assembly (GCA_965282415.1),
+and (iii) the *G. affinis* assembly (GCF_019740435.1).
+
+``` bash
+ml nf-core/3.5.2
+ml Nextflow2/25.10.4
+
+nextflow run nf-core/pairgenomealign \
+    --target <HAP1 fasta> \
+    --input <samplesheet>.csv \
+    --outdir results_comparative \
+    -c custom.config \
+    -profile oist \
+    --dotplot_filter \
+    --seed RY128 \
+    -bg
+```
+
+### Summary
+
+| Comparison                  | Chromosomes with inversions |
+|-----------------------------|-----------------------------|
+| HAP1 vs HAP2                | chr24                       |
+| HAP1 vs G. holbrooki (ERGA) | chr23, chr24                |
+| HAP1 vs G. affinis          | chr6, chr23, chr24          |
+
+**Notes:**
+
+- HAP1 used as alignment target throughout; HAP2, G. holbrooki (ERGA),
+  and G. affinis aligned as queries.
+
+- `--dotplot_filter` retains one-to-one alignment blocks only.
+
+- Aside from these localized terminal inversions, all comparisons showed
+  complete one-to-one chromosome-scale synteny.
+
+- chr23/chr24 inversions recur across independently generated assemblies
+  (this study’s own haplotype pair plus two external species),
+  suggesting these may be genuine structural features rather than
+  assembly artifacts.
+
+### Synteny Dot Plots
+
+![HAP1
+self-synteny](figures/target___G_holbrooki_hap1_australia.o2o_plt_filtered.png)
+**Figure 3.4a.** *HAP1 self-alignment (reference diagonal).*
+
+![HAP1 vs
+HAP2](figures/target___G_holbrooki_hap2_australia.o2o_plt_filtered.png)
+**Figure 3.4b.** *HAP1 vs HAP2.*
+
+![HAP1 vs G. holbrooki
+ERGA](figures/target___G_holbrooki_hap1_italy.o2o_plt_filtered.png)
+**Figure 3.4c.** *HAP1 vs G. holbrooki (ERGA-BGE, Italy).*
+
+![HAP1 vs G. affinis](figures/target___G_affinis.o2o_plt_filtered.png)
+**Figure 3.4d.** *HAP1 vs G. affinis.*
+
+------------------------------------------------------------------------
+
 ## Summary
 
-| Metric                                 |       HAP1       |       HAP2       |
-|:---------------------------------------|:----------------:|:----------------:|
-| Estimated genome size (KAT)            |    589.97 Mb     |        —         |
-| Heterozygosity (KAT)                   |      0.70%       |        —         |
-| Number of scaffolds                    |        92        |       105        |
-| Total assembly length                  |     676.1 Mb     |     674.3 Mb     |
-| Number of chromosomes                  |        24        |        24        |
-| Chromosome-scale sequence              | 667.8 Mb (98.8%) | 661.6 Mb (98.1%) |
-| Unplaced sequence                      |  8.3 Mb (1.2%)   |  12.7 Mb (1.9%)  |
-| Scaffold N50                           |     30.2 Mb      |     29.2 Mb      |
-| BUSCO completeness (scaffolds)         |      98.6%       |      98.4%       |
-| Merqury QV                             |      67.99       |      66.84       |
-| Merqury completeness                   |      96.43%      |      96.21%      |
-| Chromosomes strong telomeres both ends |     13 / 24      |     11 / 24      |
-| Chromosomes weak/absent at one end     |      7 / 24      |      8 / 24      |
-| Chromosomes absent telomere one end    |      4 / 24      |      5 / 24      |
-| Total gap content                      |     3,700 bp     |     3,300 bp     |
-| Scaffolding joins                      |        37        |        33        |
+| Metric                         |       HAP1       |       HAP2       |
+|:-------------------------------|:----------------:|:----------------:|
+| Estimated genome size (KAT)    |    589.97 Mb     |        —         |
+| Heterozygosity (KAT)           |      0.70%       |        —         |
+| Number of scaffolds            |        92        |       105        |
+| Total assembly length          |     676.1 Mb     |     674.3 Mb     |
+| Number of chromosomes          |        24        |        24        |
+| Chromosome-scale sequence      | 667.8 Mb (98.8%) | 661.6 Mb (98.1%) |
+| Unplaced sequence              |  8.3 Mb (1.2%)   |  12.7 Mb (1.9%)  |
+| Scaffold N50                   |     30.2 Mb      |     29.2 Mb      |
+| BUSCO completeness (scaffolds) |      98.6%       |      98.4%       |
+| Merqury QV                     |      67.99       |      66.84       |
+| Merqury completeness           |      96.43%      |      96.21%      |
+| Total gap content              |     3,700 bp     |     3,300 bp     |
+| Scaffolding joins              |        37        |        33        |
+
+After assembly and scaffolding QC, the next step included **[04 - Repeat
+Annotation](04_repeat_annotation.md)**

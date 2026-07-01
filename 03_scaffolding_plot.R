@@ -49,3 +49,4 @@ p <- ggplot(dat, aes(x = index, y = length_mb)) +
 print(p)
 
 ggsave("figures/scaffold_size_distribution.png", p, width = 10, height = 7, dpi = 600)
+ggsave("figures/scaffold_size_distribution.svg", p, width = 10, height = 7, dpi = 600)

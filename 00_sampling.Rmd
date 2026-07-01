@@ -10,7 +10,7 @@ This section describes the sample collection, NA extraction, and sequencing for 
 
 A male *Gambusia holbrooki* adult was collected from Waterway Drive, Townsville, Australia (−19.423°S, 146.698°E) in June 2024 and transferred to the Marine and Aquaculture Research Facility at James Cook University, Townsville, Australia, where it was acclimated in freshwater at 27 °C. The male was kept with females from the same source population and participated in breeding activities prior to euthanasia.
 
-In March 2025, the chosen individual was euthanized in an ice bath and immediately immersed in liquid nitrogen. At the time of euthanasia the fish was 25–30 mm in length and weighed 0.1–0.2 g. The sample was stored at −80 °C before shipping to the Okinawa Institute of Science and Technology (OIST) on dry ice.
+In March 2025, the chosen individual was euthanized in an ice bath and immediately immersed in liquid nitrogen. At the time of euthanasia the fish was approximately 30 mm in length and 0.2 g in weight. The sample was stored at −80 °C before shipping to the Okinawa Institute of Science and Technology (OIST) on dry ice.
 
 ---
 
@@ -77,5 +77,5 @@ HiFi reads were generated on a single Revio SMRT Cell.
 | NCBI BioSample | SAMN57172601 |
 
 
-
+The sequenced raw data was used in **[01 - Genome Assembly](01_genome_assembly.md)**
 

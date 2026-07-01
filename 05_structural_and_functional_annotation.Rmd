@@ -297,3 +297,6 @@ Functional annotation was performed using eggNOG-mapper (v2.1.12) based on eggNO
 - eggNOG 5.0: Huerta-Cepas et al. 2019. *Nucleic Acids Research*, 47(D1):D309–D314. https://doi.org/10.1093/nar/gky1085
 
 - DIAMOND: Buchfink et al. 2021. *Nature Methods* 18, 366–368. https://doi.org/10.1038/s41592-021-01101-x
+
+
+The genome and functional annotations were then quality controlled in [06 - Annotation Quality Control](06_annotation_quality_control.md)

@@ -29,6 +29,7 @@ p <- ggplot(kat, aes(x = frequency, y = count_m)) +
   annotate("text", x = hom_peak + 4, y = max(kat$count_m) * 0.95,
            label = paste0("Homozygous\npeak (", hom_peak, "x)"),
            hjust = 0, size = 3.5, colour = "grey30") +
+  scale_x_continuous(breaks = sort(c(seq(0, 300, by = 50), het_peak, hom_peak))) +
   labs(x = "21-mer frequency",
        y = "# distinct 21-mers (millions)",
        title = expression(italic("Gambusia holbrooki") ~ "— 21-mer spectra (PacBio HiFi)"),
@@ -42,3 +43,4 @@ p <- ggplot(kat, aes(x = frequency, y = count_m)) +
 print(p)
 
 ggsave("figures/kat_kmer_spectra.png", p, width = 8, height = 5, dpi = 300)
+ggsave("figures/kat_kmer_spectra.svg", p, width = 8, height = 5, dpi = 300)

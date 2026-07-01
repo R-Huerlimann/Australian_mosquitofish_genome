@@ -16,9 +16,9 @@ population and participated in breeding activities prior to euthanasia.
 
 In March 2025, the chosen individual was euthanized in an ice bath and
 immediately immersed in liquid nitrogen. At the time of euthanasia the
-fish was 25–30 mm in length and weighed 0.1–0.2 g. The sample was stored
-at −80 °C before shipping to the Okinawa Institute of Science and
-Technology (OIST) on dry ice.
+fish was approximately 30 mm in length and 0.2 g in weight. The sample
+was stored at −80 °C before shipping to the Okinawa Institute of Science
+and Technology (OIST) on dry ice.
 
 ------------------------------------------------------------------------
 

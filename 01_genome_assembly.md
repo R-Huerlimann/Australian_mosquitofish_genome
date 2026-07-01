@@ -42,11 +42,14 @@ hifiasm -o mosquitofish.pbhic.asm1 \
 > **Resources:** 128 CPUs, 500 GB RAM, 1-day wall time (Deigo HPC,
 > `compute` partition).
 
-**Notes:** - HiFiasm in Hi-C mode (`--h1`/`--h2`) resolves heterozygous
-loci into two separate phased assemblies rather than collapsing them
-into a consensus. This is the recommended approach for diploid organisms
-where both haplotypes are of interest. - Standard parameters (no custom
-overlap or purge settings) were used.
+**Notes:**
+
+- HiFiasm in Hi-C mode (`--h1`/`--h2`) resolves heterozygous loci into
+  two separate phased assemblies rather than collapsing them into a
+  consensus. This is the recommended approach for diploid organisms
+  where both haplotypes are of interest.
+
+- Standard parameters (no custom overlap or purge settings) were used.
 
 ------------------------------------------------------------------------
 
@@ -60,13 +63,16 @@ awk '/^S/{print ">"$2"\n"$3}' mosquitofish.pbhic.asm1.hic.hap1.p_ctg.gfa > mosqu
 awk '/^S/{print ">"$2"\n"$3}' mmosquitofish.pbhic.asm1.hic.hap2.p_ctg.gfa > mosquitofish.pbhic.asm1.hic.hap2.p_ctg.fa
 ```
 
-**Notes:** - GFA (Graphical Fragment Assembly) format encodes the
-assembly graph; most downstream tools (scaffolders, annotation
-pipelines) require FASTA. The `awk` one-liner extracts only the Segment
-lines (`S` tag), which contain contig names and sequences. - `p_ctg`
-refers to primary contigs, the fully phased, non-redundant contig set
-for each haplotype. HiFiasm also produces alternate contig files
-(`.a_ctg`) which are not used here.
+**Notes:**
+
+- GFA (Graphical Fragment Assembly) format encodes the assembly graph;
+  most downstream tools (scaffolders, annotation pipelines) require
+  FASTA. The `awk` one-liner extracts only the Segment lines (`S` tag),
+  which contain contig names and sequences.
+
+- `p_ctg` refers to primary contigs, the fully phased, non-redundant
+  contig set for each haplotype. HiFiasm also produces alternate contig
+  files (`.a_ctg`) which are not used here.
 
 ------------------------------------------------------------------------
 
@@ -128,10 +134,12 @@ mitohifi.py \
     --mitos
 ```
 
-**Notes:** - The read-based run (`-r`) assembles the mitogenome directly
-from HiFi reads. The contig-based run (`-c`) uses HiFiasm contigs as
-input and `--mitos` to invoke the MITOS2 annotation pipeline for final
-gene annotation.
+**Notes:**
+
+- The read-based run (`-r`) assembles the mitogenome directly from HiFi
+  reads. The contig-based run (`-c`) uses HiFiasm contigs as input and
+  `--mitos` to invoke the MITOS2 annotation pipeline for final gene
+  annotation.
 
 - NC_028274.1 (*Gambusia holbrooki*, 16,611 bp) was used as the
   reference for mitochondrial read extraction and annotation transfer.
