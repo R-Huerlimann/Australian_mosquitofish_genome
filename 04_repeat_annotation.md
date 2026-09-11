@@ -344,4 +344,5 @@ genome for gene annotation in the next step.
 ## NEXT STEP
 
 The complex repeat GFF3 and the final softmasked FASTA are passed to
-**[05 — functional annotation](05_functional_annotation.md)**.
+**[05 — functional
+annotation](05_structural_and_functional_annotation.md)**.

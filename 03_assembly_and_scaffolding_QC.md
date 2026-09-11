@@ -25,6 +25,8 @@ prior to NCBI submission.
 | Merqury | commit 1ad7c32 | <https://github.com/marbl/merqury> |
 | tidk | 0.2.65 | <https://github.com/tolkit/telomeric-identifier> |
 | seqtk | 1.4-2 | <https://github.com/lh3/seqtk> |
+| R | 4.5.2 | <https://www.r-project.org/> |
+| tidyverse | 2.0.0 | <https://www.tidyverse.org/> |
 
 ------------------------------------------------------------------------
 
@@ -63,6 +65,11 @@ Mb HAP1, ~674 Mb HAP2) after accounting for the diploid nature of the
 reads; the KAT estimate reflects the haploid genome size. Heterozygosity
 of 0.70% is moderate and consistent with successful phased diploid
 assembly by HiFiasm.
+
+The KAT histogram was visualised in R using the standalone script
+[`03_kmer_spectra_plot.R`](03_kmer_spectra_plot.R). The script reads
+`data/pbhifi_k21` and writes the figure to
+`figures/kat_kmer_spectra.png`.
 
 ![KAT 21-mer spectra](figures/kat_kmer_spectra.png) ***Figure 3.1***
 *21-mer frequency spectra of PacBio HiFi reads. The heterozygous peak
@@ -168,6 +175,11 @@ size distribution relative to the contigs suggests the Hi-C signal was
 sufficiently informative to detect and correct putative misassemblies
 (Figure 3.2). N content is negligible (\<1 N per 100 kbp), indicating
 very few scaffolding gaps were introduced (see below).
+
+Contig and scaffold size distributions were visualised in R using the
+standalone script [`03_scaffolding_plot.R`](03_scaffolding_plot.R). The
+script reads the four FASTA index (`.fai`) files and writes the figure
+to `figures/scaffold_size_distribution.png`.
 
 ![Contig and Scaffold Size
 Distribution](figures/scaffold_size_distribution.png) ***Figure 3.2***

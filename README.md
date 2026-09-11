@@ -41,7 +41,6 @@ All analyses were performed on the Deigo HPC cluster at OIST (SLURM job schedule
 | Nextflow | 25.10.4 |
 | SLURM | 24.11.0 |
 
-
 ## Resources ##
 The genome and annotation can be found on ncbi under PRJNA1450840 (upon publication).
 
@@ -85,6 +84,15 @@ These include the outputs of egapx (gtf, cds, aa), and eggnog mapper (annotation
 | `Gamhol_mitogenome.fasta` | Assembled mitochondrial genome (MitoHiFi) |
 | `Gamhol_mitogenome.gff` | Mitogenome annotation (MITOS2) |
 
+## Genome publication checklist
+
+A checklist of recommended metadata, assembly statistics, quality-control
+metrics, annotation results, and data-accessibility information is available
+in [`genome_publication_checklist.xlsx`](genome_publication_checklist.xlsx).
+
+The workbook contains a reusable blank checklist and a working example for
+the *Gambusia holbrooki* genome project. The completed example is intended
+as an internal submission check and may contain items awaiting verification.
 
 ## Contact
 

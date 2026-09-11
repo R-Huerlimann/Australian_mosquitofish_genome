@@ -292,4 +292,4 @@ rmOutToGFF3custom -o 05_full_out/gamhol_genome_hap1_final_clnd.complex_mask.out 
 ---
 ## NEXT STEP
 
-The complex repeat GFF3 and the final softmasked FASTA are passed to **[05 — functional annotation](05_functional_annotation.md)**.
+The complex repeat GFF3 and the final softmasked FASTA are passed to **[05 — functional annotation](05_structural_and_functional_annotation.md)**.

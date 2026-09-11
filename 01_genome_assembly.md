@@ -13,7 +13,7 @@ haplotype-resolved assemblies (HAP1 and HAP2).
 |----|----|----|----|----|
 | PacBio HiFi reads | `m84168_260317_052632_s4.fastq.gz` | PRJNA1450840 | SAMN57172601 | SRR38011946 |
 | Hi-C forward reads | `Mosquitofish-HiC_S2_L001_R1_001.fastq.gz` | PRJNA1450840 | SAMN57172601 | SRR38065502 |
-| Hi-C reverse reads | `Mosquitofish-HiC_S2_L001_R2_001.fastq.gz` | PRJNA1450840 | SAMN57172601 | SRR38065501 |
+| Hi-C reverse reads | `Mosquitofish-HiC_S2_L001_R2_001.fastq.gz` | PRJNA1450840 | SAMN57172601 | SRR38065502 |
 
 ------------------------------------------------------------------------
 

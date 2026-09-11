@@ -15,7 +15,7 @@ This section describes the Hi-C scaffolding pipeline applied to both phased asse
 | mosquitofish.pbhic.asm1.hic.hap1.p_ctg.fa | HAP1 primary contigs from assembly |
 | mosquitofish.pbhic.asm1.hic.hap2.p_ctg.fa | HAP2 primary contigs from assembly |
 | Mosquitofish-HiC_S2_L001_R1_001.fastq.gz | Hi-C forward reads (SRR38065502) |
-| Mosquitofish-HiC_S2_L001_R2_001.fastq.gz | Hi-C reverse reads (SRR38065501) |
+| Mosquitofish-HiC_S2_L001_R2_001.fastq.gz | Hi-C reverse reads (SRR38065502) |
 
 ---
 
@@ -244,6 +244,77 @@ hicPlotMatrix \
 | `*_yahs_scaffolds_final.agp` | Scaffold construction description (AGP format) |
 | `*.hic` | Juicebox contact map for visual QC |
 | `*.dedup.stats` | Pairtools deduplication statistics |
+
+---
+
+## Chromosome naming and haplotype correspondence
+
+For phased assemblies, chromosome-scale scaffolds should not be numbered
+independently by size in each haplotype. Homologous chromosomes may differ in
+length, meaning that independently assigned chromosome numbers may not identify
+corresponding chromosomes across the two haplotypes.
+
+The recommended workflow is to:
+
+1. complete scaffolding and quality control for both haplotypes;
+2. perform a whole-genome alignment between the scaffolded haplotypes;
+3. determine the one-to-one chromosome correspondence from the alignment;
+4. number the chromosomes of the primary haplotype sequentially, typically by
+   decreasing length; and
+5. assign chromosome numbers to the second haplotype according to their
+   correspondence with the primary haplotype.
+
+Chromosome orientation should also be made consistent between haplotypes where
+this is supported by the alignment. Chromosome correspondence should therefore
+be established from whole-genome alignment and synteny rather than inferred
+from scaffold length alone.
+
+In this workflow, whole-genome alignment and synteny assessment were performed using Charles Plessy's [`nf-core/pairgenomealign`](https://github.com/nf-core/pairgenomealign)
+Nextflow pipeline, as described in [Step 10 — Whole-Genome Synteny Analysis](03_assembly_and_scaffolding_QC.md#step-10--whole-genome-synteny-analysis).
+
+
+### Note for the *Gambusia holbrooki* genome version 1
+
+In genome version 1, chromosome-scale scaffolds were numbered independently
+within HAP1 and HAP2 according to decreasing scaffold length. Consequently,
+matching chromosome numbers do not always identify corresponding chromosomes
+between the two haplotypes.
+
+The chromosome sequences and assembly structure are unaffected. The issue is
+limited to the numerical identifiers assigned to the HAP2 chromosomes.
+Whole-genome alignment identified the following correspondence:
+
+| HAP2 name in genome v1 | Corresponding HAP1 chromosome |
+|:---:|:---:|
+| chr01 | chr01 |
+| chr02 | chr03 |
+| chr03 | chr05 |
+| chr04 | chr04 |
+| chr05 | chr02 |
+| chr06 | chr06 |
+| chr07 | chr10 |
+| chr08 | chr07 |
+| chr09 | chr11 |
+| chr10 | chr09 |
+| chr11 | chr12 |
+| chr12 | chr08 |
+| chr13 | chr13 |
+| chr14 | chr16 |
+| chr15 | chr14 |
+| chr16 | chr17 |
+| chr17 | chr15 |
+| chr18 | chr19 |
+| chr19 | chr21 |
+| chr20 | chr20 |
+| chr21 | chr18 |
+| chr22 | chr22 |
+| chr23 | chr23 |
+| chr24 | chr24 |
+
+This table should be used when comparing corresponding HAP1 and HAP2
+chromosomes from genome version 1. In a future assembly release, HAP2
+chromosomes may be renamed to match their HAP1 counterparts.
+
 
 ---
 ## NEXT STEP

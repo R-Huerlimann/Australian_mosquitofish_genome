@@ -2,12 +2,15 @@
 ================
 
 This section describes quality assessment of the genome annotation for
-*Gambusia holbrooki* HAP1, covering structural annotation statistics
-from EGAPx, masking statistics, and functional annotation coverage from
-EggNOG-mapper.
+*Gambusia holbrooki* HAP1 and HAP2, covering structural annotation
+statistics from EGAPx, masking statistics, and functional annotation
+coverage from EggNOG-mapper.
 
-> **Note:** HAP2 annotation QC will be added once EGAPx completes for
-> HAP2.
+## Software
+
+Tool \| Version \| Source \|  
+R \| 4.5.2 \| <https://www.r-project.org/> \|  
+tidyverse \| 2.0.0 \| <https://www.tidyverse.org/> \|
 
 ------------------------------------------------------------------------
 
@@ -16,9 +19,9 @@ EggNOG-mapper.
 EGAPx reports the proportion of the assembly masked by WindowMasker
 during the annotation process.
 
-|        Metric        | HAP1  |
-|:--------------------:|:-----:|
-| WindowMasker masking | 28.6% |
+|        Metric        | HAP1  | HAP2  |
+|:--------------------:|:-----:|:-----:|
+| WindowMasker masking | 28.6% | 28.6% |
 
 **Notes:**
 
@@ -40,6 +43,9 @@ EGAPx ran BUSCO v5.7.1 in protein mode on the predicted proteins
 | Assembly | Complete (C) | Single (S) | Duplicated (D) | Fragmented (F) | Missing (M) | n |
 |:---|:--:|:--:|:--:|:--:|:--:|:--:|
 | HAP1 proteins | 99.3% | 98.3% | 1.0% | 0.4% | 0.3% | 3,640 |
+| HAP2 proteins | 99.0% | 97.8% | 1.2% | 0.4% | 0.6% | 3,640 |
+
+C:99.0%\[S:97.8%,D:1.2%\],F:0.4%,M:0.6%,n:3640
 
 **Notes:**
 
@@ -65,39 +71,59 @@ EGAPx ran BUSCO v5.7.1 in protein mode on the predicted proteins
 
 ## Part 3 — Structural Annotation Statistics
 
-Gene and transcript counts from EGAPx `feature_counts.txt` and
-`feature_stats.xml`.
+Counts and length statistics were obtained from the EGAPx
+`feature_counts.txt` and `feature_stats.xml` outputs. Means are rounded
+to the nearest base pair, except for transcripts and exons per
+transcript. The “All transcript length” category includes mRNAs and
+non-coding RNAs but excludes pseudo transcripts and Ig/TCR segment
+transcripts.
 
 ### Gene and Transcript Counts
 
-| Feature                          |     Count      |
-|:---------------------------------|:--------------:|
-| Total genes                      |     24,433     |
-| Protein-coding genes             |     22,780     |
-| Non-coding RNA genes             |     1,231      |
-| Pseudogenes (non-transcribed)    |      353       |
-| Genes with variants (isoforms)   |     9,475      |
-| Partial genes                    |       30       |
-| Ig/TCR segment genes             |       69       |
-| Total mRNAs                      |     43,928     |
-| mRNAs fully supported by RNA-seq | 42,724 (97.3%) |
-| mRNAs ab initio \>5%             |   678 (1.5%)   |
-| Non-coding RNAs                  |     2,811      |
-| Pseudo transcripts               |      384       |
-| CDSs                             |     43,928     |
+| Feature                           |     HAP1 Count |     HAP2 Count |
+|:----------------------------------|---------------:|---------------:|
+| Total genes                       |         24,433 |         24,383 |
+| Protein-coding genes              |         22,780 |         22,698 |
+| Non-coding RNA genes              |          1,231 |          1,242 |
+| Pseudogenes (non-transcribed)     |            353 |            376 |
+| Ig/TCR segment genes              |             69 |             67 |
+| Genes with variants (isoforms)    |          9,475 |          9,462 |
+| Partial genes                     |             30 |             30 |
+| Total transcripts                 |         47,192 |         47,122 |
+| mRNAs                             |         43,928 |         43,880 |
+| mRNAs fully supported             | 42,724 (97.3%) | 42,707 (97.3%) |
+| mRNAs with \>5% ab initio support |     678 (1.5%) |     647 (1.5%) |
+| Non-coding RNAs                   |          2,811 |          2,763 |
+| Pseudo transcripts                |            384 |            412 |
+| CDSs                              |         43,928 |         43,880 |
 
 ### Transcript and Gene Length Statistics
 
-|          Feature           | Min |   Max   |  Mean  | Median |
-|:--------------------------:|:---:|:-------:|:------:|:------:|
-|    Transcripts per gene    |  1  |   50    |  1.95  |   1    |
-|    Exons per transcript    |  1  |   255   |  14.5  |   10   |
-| All transcript length (bp) | 140 | 96,840  | 4,353  | 3,482  |
-|      CDS length (bp)       | 96  | 95,589  | 2,449  | 1,644  |
-|      Gene length (bp)      | 307 | 751,979 | 19,351 | 9,088  |
-|      mRNA length (bp)      | 293 | 96,840  | 4,430  | 3,558  |
-|     lncRNA length (bp)     | 140 | 20,227  | 2,285  | 1,437  |
-|  Single-exon transcripts   | 312 | 11,844  | 2,374  | 2,009  |
+**HAP1**
+
+|               Feature               | Min |   Max   |  Mean  | Median |
+|:-----------------------------------:|:---:|:-------:|:------:|:------:|
+|        Transcripts per gene         |  1  |   50    |  1.95  |   1    |
+|        Exons per transcript         |  1  |   255   |  14.5  |   10   |
+| mRNA and non-coding RNA length (bp) | 140 | 96,840  | 4,353  | 3,482  |
+|           CDS length (bp)           | 96  | 95,589  | 2,449  | 1,644  |
+|          Gene length (bp)           | 307 | 751,979 | 19,351 | 9,088  |
+|          mRNA length (bp)           | 293 | 96,840  | 4,430  | 3,558  |
+|         lncRNA length (bp)          | 140 | 20,227  | 2,285  | 1,437  |
+| Single-exon transcript length (bp)  | 312 | 11,844  | 2,374  | 2,009  |
+
+**HAP2**
+
+| Feature                            | Min |     Max |   Mean | Median |
+|:-----------------------------------|----:|--------:|-------:|-------:|
+| Transcripts per gene               |   1 |      50 |   1.95 |      1 |
+| Exons per transcript               |   1 |     254 |   14.5 |     10 |
+| All transcript length (bp)         | 140 |  95,702 |  4,365 |  3,484 |
+| CDS length (bp)                    |  96 |  94,449 |  2,455 |  1,647 |
+| Gene length (bp)                   | 307 | 748,264 | 19,356 |  9,075 |
+| mRNA length (bp)                   | 293 |  95,702 |  4,445 |  3,566 |
+| lncRNA length (bp)                 | 140 |  20,227 |  2,197 |  1,405 |
+| Single-exon transcript length (bp) | 312 |  11,857 |  2,436 |  2,059 |
 
 **Notes:**
 
@@ -119,68 +145,20 @@ Gene and transcript counts from EGAPx `feature_counts.txt` and
 
 ------------------------------------------------------------------------
 
-## Part 3 — Gene Model Statistics (Eval)
-
-Detailed gene model statistics were generated using
-`get_general_stats.pl` from the [Eval
-package](http://mblab.wustl.edu/software.html) run directly on the EGAPx
-GTF output.
-
-### Summary
-
-|         Feature          |  Count  | Mean length | Median length |
-|:------------------------:|:-------:|:-----------:|:-------------:|
-|          Genes           | 24,433  |      —      |       —       |
-|    Total transcripts     | 71,625  |  19,722 bp  |   5,930 bp    |
-|   Complete transcripts   | 43,898  |  30,806 bp  |   13,786 bp   |
-|  Incomplete transcripts  | 27,727  |  2,174 bp   |     1 bp      |
-| Single-exon transcripts  |  1,686  |  8,537 bp   |   3,836 bp    |
-|       Total exons        | 623,980 |   175 bp    |    124 bp     |
-|      Total introns       | 232,074 |  1,628 bp   |    432 bp     |
-| Coding length (complete) |    —    |  2,447 bp   |   1,641 bp    |
-
-### Exon Breakdown
-
-| Exon type |  Count  | Mean length (bp) | Median length (bp) |
-|:---------:|:-------:|:----------------:|:------------------:|
-|  Initial  | 25,270  |       198        |        101         |
-| Internal  | 203,627 |       152        |        123         |
-| Terminal  | 23,823  |       284        |        147         |
-|  Single   |  1,323  |      1,262       |       1,059        |
-|   UTR3    | 36,250  |      1,035       |        521         |
-|   UTR5    | 54,545  |       340        |        141         |
-
-**Notes:**
-
-- The high count of incomplete transcripts (27,727) reflects transcripts
-  with missing UTR or partial CDS information. This is common in EGAPx
-  output and does not indicate annotation errors. The complete
-  transcript count (43,898) matches the mRNA count from
-  `feature_counts.txt` closely.
-
-- Mean transcript length (19,722 bp) is elevated by long intronic
-  regions; median transcript length (5,930 bp) is more representative.
-  Complete transcripts average ~30 kb including introns.
-
-- Mean intron length of 1,628 bp (median 432 bp) is consistent with
-  teleost fish genomes, which tend to have shorter introns than mammals.
-
-- The 2.93 transcripts per gene (from the Eval output) differs from the
-  1.95 reported by EGAPx `feature_stats.xml` because Eval counts all
-  transcript records in the GTF including incomplete/UTR-only entries,
-  while EGAPx reports only complete coding models.
-
-- Splice acceptor (227,450) and donor (228,897) site counts are
-  near-identical, as expected for a correctly formatted GTF.
-
-------------------------------------------------------------------------
-
-## Part 4 — Repeat Content (HAP1)
+## Part 3 — Repeat Content (HAP1)
 
 Repeat annotation results from RepeatMasker v4.2.3 using Dfam 3.9
 (Vertebrata/Otomorpha partitions) and the *de novo* repeat library from
 RepeatModeler2. Full pipeline described in [04 — Repeat
 Annotation](04_repeat_annotation.md).
+
+The repeat-composition figure was generated in R using
+[`06_annotation_and_repeat_plots.R`](06_annotation_and_repeat_plots.R).
+The script uses the RepeatMasker repeat table
+(`data/gamhol_genome_hap1_final_clnd.full_mask.table`) to calculate the
+contribution of each repeat class and the RepeatMasker summary file
+(`data/gamhol_genome_hap1_final_clnd.full_mask.tbl`) to obtain the total
+assembly length and percentage of the genome masked.
 
 ### Summary
 
@@ -236,10 +214,18 @@ sequence (29.17% of genome). RepeatMasker v4.2.3, Dfam 3.9.*
 
 ------------------------------------------------------------------------
 
-## Part 5 — Functional Annotation Coverage
+## Part 4 — Functional Annotation Coverage
 
 EggNOG-mapper results for HAP1 (`GAMHOL_HAP1_emapper.annotations`,
 emapper v2.1.12).
+
+The COG-category figure was generated in R using
+[`06_annotation_and_repeat_plots.R`](06_annotation_and_repeat_plots.R).
+The script uses the HAP1 EggNOG-mapper annotation file
+(`data/GAMHOL_HAP1.emapper.annotations`) as input. Proteins without a
+COG assignment were excluded, and multi-category assignments were
+separated before the number of assignments in each COG functional
+category was counted.
 
 ### Coverage Summary
 
@@ -300,8 +286,9 @@ proteins (HAP1):
 |      Y       |         Nuclear structure         |   74   |
 
 ![COG Category Distribution](figures/cog_distribution_hap1.png) *Figure
-2. COG functional category distribution for HAP1 predicted proteins
-(EggNOG-mapper v2.1.12).*
+2. Distribution of COG functional-category assignments among HAP1
+predicted proteins. Proteins assigned to multiple COG categories
+contribute to each applicable category (EggNOG-mapper v2.1.12).*
 
 **Notes:**
 

@@ -18,12 +18,19 @@ and Nextflow.
 
 ## Inputs
 
+**Assembly files**
+
 | File | Description |
 |----|----|
-| gamhol_genome_hap1_24chr_contigs_mtg.fa | HAP1 final assembly (24 chromosomes + contigs + mitogenome) |
-| gamhol_genome_hap2_24chr_contigs.fa | HAP2 final assembly (24 chromosomes + contigs) |
-| Mosquitofish-RNAseq_S1_L001_R1_001.fastq.gz | RNAseq forward reads (raw, SRR38065501) |
-| Mosquitofish-RNAseq_S1_L001_R2_001.fastq.gz | RNAseq reverse reads (raw, SRR38065501) |
+| `gamhol_genome_hap1_24chr_contigs_mtg.fa` | HAP1 final assembly (24 chromosomes + contigs + mitogenome) |
+| `gamhol_genome_hap2_24chr_contigs.fa` | HAP2 final assembly (24 chromosomes + contigs) |
+
+**RNA-seq reads**
+
+| Read Type | Filename | BioProject | BioSample | SRA Accession |
+|----|----|----|----|----|
+| Forward | `Mosquitofish-RNAseq_S1_L001_R1_001.fastq.gz` | PRJNA1450840 | SAMN57172601 | SRR38065501 |
+| Reverse | `Mosquitofish-RNAseq_S1_L001_R2_001.fastq.gz` | PRJNA1450840 | SAMN57172601 | SRR38065501 |
 
 ------------------------------------------------------------------------
 

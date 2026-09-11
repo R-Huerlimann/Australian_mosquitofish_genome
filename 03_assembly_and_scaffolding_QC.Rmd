@@ -20,6 +20,8 @@ This section describes the quality assessment of both the raw contig assemblies 
 | Merqury | commit 1ad7c32 | https://github.com/marbl/merqury |
 | tidk | 0.2.65 | https://github.com/tolkit/telomeric-identifier |
 | seqtk | 1.4-2 | https://github.com/lh3/seqtk |
+| R | 4.5.2 | https://www.r-project.org/ |
+| tidyverse | 2.0.0 | https://www.tidyverse.org/ |
 
 
 ---
@@ -50,6 +52,9 @@ kat hist -m 21 \
 | Estimated heterozygosity | 0.70% |
 
 The estimated genome size is consistent with final assembly sizes (~676 Mb HAP1, ~674 Mb HAP2) after accounting for the diploid nature of the reads; the KAT estimate reflects the haploid genome size. Heterozygosity of 0.70% is moderate and consistent with successful phased diploid assembly by HiFiasm.
+
+The KAT histogram was visualised in R using the standalone script [`03_kmer_spectra_plot.R`](03_kmer_spectra_plot.R).
+The script reads `data/pbhifi_k21` and writes the figure to `figures/kat_kmer_spectra.png`.
 
 ![KAT 21-mer spectra](figures/kat_kmer_spectra.png)
 ***Figure 3.1*** *21-mer frequency spectra of PacBio HiFi reads. The heterozygous peak (~68x) and homozygous peak (~123x) are consistent with a diploid genome at ~123x haploid coverage and 0.70% heterozygosity.*
@@ -128,6 +133,9 @@ quast -o ${name}_quast \
 | N's per 100 kbp | 0.00 | 0.55 | 0.00 | 0.49 |
 
 Scaffold N50 increased from ~26 Mb to ~30 Mb for HAP1 and from ~27 Mb to ~29 Mb for HAP2, reflecting successful chromosome-scale scaffolding. HAP1 was reduced from 105 contigs to 92 scaffolds. HAP2 retained the same count of 105, but the size distribution changed between contigs and scaffolds, indicating that YaHS both joined some contigs and broke up others (misassembly correction), resulting in an unchanged total count. The more distinct size drop-off after chromosome 24 in the HAP2 scaffold size distribution relative to the contigs suggests the Hi-C signal was sufficiently informative to detect and correct putative misassemblies (Figure 3.2). N content is negligible (<1 N per 100 kbp), indicating very few scaffolding gaps were introduced (see below).
+
+Contig and scaffold size distributions were visualised in R using the standalone script [`03_scaffolding_plot.R`](03_scaffolding_plot.R).
+The script reads the four FASTA index (`.fai`) files and writes the figure to `figures/scaffold_size_distribution.png`.
 
 ![Contig and Scaffold Size Distribution](figures/scaffold_size_distribution.png)
 ***Figure 3.2*** *Contig and scaffold size distribution (top 70) for HAP1 and HAP2. The red dashed line marks position 24, corresponding to the expected number of chromosomes. Left of the line: chromosome-scale sequences. Right of the line: unplaced contigs/scaffolds.*
